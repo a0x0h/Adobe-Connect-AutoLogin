@@ -11,7 +11,7 @@ from webdriver_manager.utils import ChromeType
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from pynput.keyboard import Key, Controller
-from PyQt5.QtCore import Qt, QEvent, QPoint, QPropertyAnimation, QParallelAnimationGroup, QSettings
+from PyQt5.QtCore import Qt, QEvent, QPoint, QPropertyAnimation, QParallelAnimationGroup, QSettings, QBasicTimer
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit
 from PyQt5.QtGui import QColor
 from PyQt5.QtTest import QTest
@@ -65,7 +65,24 @@ class Form(QMainWindow, Ui_Form):
 			self.password_line_edit.setText(self.settings.value("password"))
 			self.username_label_anims.start()
 			self.password_label_anims.start()
+			self.seconds = 10
+			self.log_in_button.setText(f"Login ({self.seconds})")
+			self.timer = QBasicTimer()
+			self.username_line_edit.textEdited.connect(self.timer.stop)
+			self.username_line_edit.textEdited.connect(lambda: self.log_in_button.setText("Login"))
+			self.password_line_edit.textEdited.connect(self.timer.stop)
+			self.password_line_edit.textEdited.connect(lambda: self.log_in_button.setText("Login"))
+			self.timer.start(1000, self)
 		self.show()
+
+	def timerEvent(self, timer_event):
+		if self.seconds > 0:
+			self.seconds -= 1
+			self.log_in_button.setText(f"Login ({self.seconds})")
+		elif self.seconds == 0:
+			self.login()
+			self.timer.stop()
+		return super().timerEvent(timer_event)
 
 	def login(self):
 		self.log_in_button.setText("")
