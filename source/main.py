@@ -65,6 +65,7 @@ class Form(QMainWindow, Ui_Form):
 			self.password_line_edit.setText(self.settings.value("password"))
 			self.username_label_anims.start()
 			self.password_label_anims.start()
+			self.checkBox.setChecked(True)
 			self.seconds = 10
 			self.log_in_button.setText(f"Login ({self.seconds})")
 			self.timer = QBasicTimer()
