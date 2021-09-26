@@ -59,7 +59,7 @@ class Form(QMainWindow, Ui_Form):
 		self.loading_widget.hide()
 
 
-		self.settings = QSettings("Adobe-Connect-Auto-Login")
+		self.settings = QSettings("Adobe-Connect-Auto-Login", "Adobe-Connect-Auto-Login")
 		if self.settings.contains("username") and self.settings.contains("password"):
 			self.username_line_edit.setText(self.settings.value("username"))
 			self.password_line_edit.setText(self.settings.value("password"))
