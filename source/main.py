@@ -60,11 +60,6 @@ class Form(QMainWindow, Ui_Form):
 		self.loading_widget.hide()
 		self.show()
 
-	def remeber(self):
-		data = open('Data.txt', "w")
-		data.write(self.username_line_edit.text())
-		data.write(self.password_line_edit.text())
-
 	def login(self):
 		self.log_in_button.setText("")
 		self.loading_widget.show()
