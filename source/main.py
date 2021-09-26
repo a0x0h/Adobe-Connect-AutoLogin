@@ -1,7 +1,6 @@
 # Adobe Connect Auto-Loginer
 # Made by SirA-
 # CopyRight (C) 2021
-
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.utils import ChromeType
@@ -14,17 +13,16 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 from pynput.keyboard import Key, Controller
-keyboard = Controller()
 import sys
-
 from PyQt5.QtCore import Qt, QEvent, QPoint, QPropertyAnimation, QParallelAnimationGroup
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit
 from PyQt5.QtGui import QColor
-
 from Main_widget import Ui_Form
 from Password_show_button import ShowPasswordButton
 from QWindowButtons import QWindowCloseButton, QWindowMinimizeButton
 from Loading_widget import LoadingWidget
+
+keyboard = Controller()
 
 
 class Form(QMainWindow, Ui_Form):
@@ -61,21 +59,21 @@ class Form(QMainWindow, Ui_Form):
 		self.loading_widget.move(185, 392)
 		self.loading_widget.hide()
 		self.show()
-	
+
 	def remeber(self):
 		data = open('Data.txt', "w")
 		data.write(self.username_line_edit.text())
 		data.write(self.password_line_edit.text())
 
-	def login(self):		
+	def login(self):
 		self.log_in_button.setText("")
 		self.loading_widget.show()
-		
+
 		userna = self.username_line_edit.text()
 		passwo = self.password_line_edit.text()
 		driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
 		driver.get("https://live6.ictschools.ir/class521")
-		
+
 		user = driver.find_element_by_name("login")
 		user.send_keys(userna)
 
