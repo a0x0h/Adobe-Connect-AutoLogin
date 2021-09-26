@@ -1,23 +1,19 @@
 # Adobe Connect Auto-Loginer
 # Made by SirA-
 # CopyRight (C) 2021
-from selenium import webdriver
+import time
+import sys
+
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.utils import ChromeType
-from keyboard import key_to_scan_codes
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.alert import Alert
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import time
 from pynput.keyboard import Key, Controller
-import sys
 from PyQt5.QtCore import Qt, QEvent, QPoint, QPropertyAnimation, QParallelAnimationGroup, QSettings
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit
 from PyQt5.QtGui import QColor
 from PyQt5.QtTest import QTest
+
 from Main_widget import Ui_Form
 from Password_show_button import ShowPasswordButton
 from QWindowButtons import QWindowCloseButton, QWindowMinimizeButton
