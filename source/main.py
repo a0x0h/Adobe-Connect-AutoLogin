@@ -48,13 +48,13 @@ class Form(QMainWindow, Ui_Form):
 		self.window_close_button.move(self.width() - self.window_close_button.width(), 0)
 		self.window_close_button.clicked.connect(self.close)
 		self.window_minimize_button = QWindowMinimizeButton(self, bg_hover_color=QColor(101, 101, 101),
-		                                                    bg_press_color=QColor(117, 117, 117))
+															bg_press_color=QColor(117, 117, 117))
 		self.window_minimize_button.move(
 			self.width() - self.window_close_button.width() - self.window_minimize_button.width(), 0)
 		self.window_minimize_button.clicked.connect(self.showMinimized)
 		self.log_in_button.clicked.connect(self.login)
 		self.loading_widget = LoadingWidget(self, back_circle_color=QColor(67, 0, 202),
-		                                    front_arc_color=QColor(255, 255, 255))
+											front_arc_color=QColor(255, 255, 255))
 		self.loading_widget.move(185, 392)
 		self.loading_widget.hide()
 
@@ -86,7 +86,7 @@ class Form(QMainWindow, Ui_Form):
 		return super().timerEvent(timer_event)
 
 	def login(self):
-                self.timer.stop()
+				self.timer.stop()
 		self.log_in_button.setText("")
 		self.loading_widget.show()
 		QTest.qWait(2000)
