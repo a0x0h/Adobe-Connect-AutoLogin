@@ -86,7 +86,7 @@ class Form(QMainWindow, Ui_Form):
 		return super().timerEvent(timer_event)
 
 	def login(self):
-				self.timer.stop()
+		self.timer.stop()
 		self.log_in_button.setText("")
 		self.loading_widget.show()
 		QTest.qWait(2000)
