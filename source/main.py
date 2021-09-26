@@ -65,8 +65,6 @@ class Form(QMainWindow, Ui_Form):
 			self.password_line_edit.setText(self.settings.value("password"))
 			self.username_label_anims.start()
 			self.password_label_anims.start()
-			self.log_in_button.setText("")
-			self.loading_widget.show()
 		self.show()
 
 	def login(self):
