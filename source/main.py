@@ -14,7 +14,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 from pynput.keyboard import Key, Controller
 import sys
-from PyQt5.QtCore import Qt, QEvent, QPoint, QPropertyAnimation, QParallelAnimationGroup
+from PyQt5.QtCore import Qt, QEvent, QPoint, QPropertyAnimation, QParallelAnimationGroup, QSettings
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit
 from PyQt5.QtGui import QColor
 from PyQt5.QtTest import QTest
@@ -59,12 +59,22 @@ class Form(QMainWindow, Ui_Form):
 		                                    front_arc_color=QColor(255, 255, 255))
 		self.loading_widget.move(185, 392)
 		self.loading_widget.hide()
+
+
+		self.settings = QSettings("Adobe-Connect-Auto-Login")
+		if self.settings.contains("username") and self.settings.contains("password"):
+			self.username_line_edit.setText(self.settings.value("username"))
+			self.password_line_edit.setText(self.settings.value("password"))
+			self.log_in_button.setText("")
+			self.loading_widget.show()
 		self.show()
 
 	def login(self):
 		self.log_in_button.setText("")
 		self.loading_widget.show()
 		QTest.qWait(2000)
+
+		if self.checkBox.isChecked()
 
 		userna = self.username_line_edit.text()
 		passwo = self.password_line_edit.text()
