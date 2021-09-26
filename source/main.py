@@ -17,6 +17,7 @@ import sys
 from PyQt5.QtCore import Qt, QEvent, QPoint, QPropertyAnimation, QParallelAnimationGroup
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLineEdit
 from PyQt5.QtGui import QColor
+from PyQt5.QtTest import QTest
 from Main_widget import Ui_Form
 from Password_show_button import ShowPasswordButton
 from QWindowButtons import QWindowCloseButton, QWindowMinimizeButton
@@ -63,6 +64,7 @@ class Form(QMainWindow, Ui_Form):
 	def login(self):
 		self.log_in_button.setText("")
 		self.loading_widget.show()
+		QTest.qWait(2000)
 
 		userna = self.username_line_edit.text()
 		passwo = self.password_line_edit.text()
