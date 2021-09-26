@@ -65,6 +65,8 @@ class Form(QMainWindow, Ui_Form):
 		if self.settings.contains("username") and self.settings.contains("password"):
 			self.username_line_edit.setText(self.settings.value("username"))
 			self.password_line_edit.setText(self.settings.value("password"))
+			self.username_label_anims.start()
+			self.password_label_anims.start()
 			self.log_in_button.setText("")
 			self.loading_widget.show()
 		self.show()
@@ -74,7 +76,12 @@ class Form(QMainWindow, Ui_Form):
 		self.loading_widget.show()
 		QTest.qWait(2000)
 
-		if self.checkBox.isChecked()
+		if self.checkBox.isChecked():
+			self.settings.setValue("username", self.username_line_edit.text())
+			self.settings.setValue("password", self.password_line_edit.text())
+		elif not self.checkBox.isChecked():
+			self.settings.clear()
+
 
 		userna = self.username_line_edit.text()
 		passwo = self.password_line_edit.text()
