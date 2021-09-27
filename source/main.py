@@ -47,8 +47,8 @@ class Form(QMainWindow, Ui_Form):
 		self.window_close_button = QWindowCloseButton(self)
 		self.window_close_button.move(self.width() - self.window_close_button.width(), 0)
 		self.window_close_button.clicked.connect(self.close)
-		self.window_minimize_button = QWindowMinimizeButton(self, bg_hover_color=QColor(101, 101, 101),
-															bg_press_color=QColor(117, 117, 117))
+		self.window_minimize_button = QWindowMinimizeButton(self, bg_hover_color=QColor(48, 112, 156),
+															bg_press_color=QColor(48, 152, 178))
 		self.window_minimize_button.move(
 			self.width() - self.window_close_button.width() - self.window_minimize_button.width(), 0)
 		self.window_minimize_button.clicked.connect(self.showMinimized)

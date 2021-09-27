@@ -22,7 +22,7 @@ class Ui_Form(object):
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
         Form.setFont(font)
         Form.setStyleSheet("QWidget#Form {\n"
-"    background-color: qlineargradient(spread:pad, x1:0.422726, y1:0.449, x2:1, y2:1, stop:0 rgba(56, 56, 56, 255), stop:1 rgba(103, 103, 103, 255));\n"
+"    background-color: qlineargradient(spread:pad, x1:0.279, y1:0, x2:1, y2:0.914773, stop:0 rgba(50, 22, 107, 255), stop:1 rgba(47, 191, 199, 255));\n"
 "}\n"
 "QLabel {\n"
 "    color: rgb(255, 255, 255);\n"
@@ -155,6 +155,7 @@ class Ui_Form(object):
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
         self.checkBox.setFont(font)
         self.checkBox.setStyleSheet("QCheckBox {\n"
 "    color: rgb(255, 255, 255);\n"
