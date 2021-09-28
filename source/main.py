@@ -104,7 +104,7 @@ class Form(QMainWindow, Ui_Form):
 		userna = self.username_line_edit.text()
 		passwo = self.password_line_edit.text()
 		driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
-		driver.get("https://live5.ictschools.ir/class521")
+		driver.get("https://live7.ictschools.ir/class521")
 
 		user = driver.find_element_by_name("login")
 		user.send_keys(userna)
