@@ -1,13 +1,16 @@
-import sys
-
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
+from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtGui import QPainter, QColor, QBrush, QPen
 
 
 class QWindowCloseButton(QPushButton):
-	def __init__(self, parent=None, bg_color=QColor(0, 0, 0, 0), bg_hover_color=QColor(234, 40, 56),
-	             bg_press_color=QColor(241, 112, 122)):
+	def __init__(
+			self,
+			parent=None,
+			bg_color=QColor(0, 0, 0, 0),
+			bg_hover_color=QColor(234, 40, 56),
+			bg_press_color=QColor(241, 112, 122)
+	):
 		if parent is not None:
 			super().__init__("", parent=parent)
 		elif parent is None:
@@ -50,8 +53,13 @@ class QWindowCloseButton(QPushButton):
 
 
 class QWindowMinimizeButton(QPushButton):
-	def __init__(self, parent=None, bg_color=QColor(0, 0, 0, 0), bg_hover_color=QColor(53, 59, 69),
-	             bg_press_color=QColor(70, 79, 91)):
+	def __init__(
+			self,
+			parent=None,
+			bg_color=QColor(0, 0, 0, 0),
+			bg_hover_color=QColor(53, 59, 69),
+			bg_press_color=QColor(70, 79, 91)
+	):
 		if parent is not None:
 			super().__init__("", parent=parent)
 		elif parent is None:
@@ -90,4 +98,3 @@ class QWindowMinimizeButton(QPushButton):
 		self.current_color = self.normal_color
 		self.repaint()
 		return super().mouseReleaseEvent(event)
-

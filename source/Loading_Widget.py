@@ -4,7 +4,12 @@ from PyQt5.QtGui import QPainter, QColor, QPen
 
 
 class LoadingWidget(QWidget):
-	def __init__(self, parent=None, back_circle_color=QColor(160, 160, 164), front_arc_color=QColor(0, 0, 0)):
+	def __init__(
+			self,
+			parent=None,
+			back_circle_color=QColor(160, 160, 164),
+			front_arc_color=QColor(0, 0, 0)
+	):
 		if parent is not None:
 			super().__init__(parent=parent)
 		elif parent is None:

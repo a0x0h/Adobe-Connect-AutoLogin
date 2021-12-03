@@ -12,7 +12,7 @@ class PlaceHolderLabel(QLabel):
 			super().__init__(text)
 		self.new_font = self.font()
 		self._point_size = self.font().pointSize()
-		self.click = None
+		self.click = False
 
 	def setFont(self, font):
 		super().setFont(font)
@@ -31,11 +31,11 @@ class PlaceHolderLabel(QLabel):
 	point_size = pyqtProperty(int, get_point_size, set_point_size)
 
 	def mousePressEvent(self, event):
-		self.click = False
+		self.click = True
 		return super().mousePressEvent(event)
 
 	def mouseReleaseEvent(self, event):
-		if self.click is not None:
+		if self.click:
 			self.clicked.emit()
-			self.click = None
+			self.click = False
 		return super().mouseReleaseEvent(event)

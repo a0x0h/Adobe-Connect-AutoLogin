@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="/resources">
+    <file>resources/AdobeConnect.png</file>
+    <file>resources/zoom.png</file>
+    <file>resources/skyroom.png</file>
     <file>resources/checkbox_unchecked_hover.png</file>
     <file>resources/checkbox_checked_hover.png</file>
     <file>resources/checkbox_checked.png</file>
