@@ -123,7 +123,7 @@ class Form(QMainWindow, Ui_Form):
 		self.define_animations()
 		QToolTip.setFont(QFont("Segoe UI", 9))
 		self.link_line_edit.textChanged.connect(lambda: self.link_line_edit.setStyleSheet(normal_line_edit_stylesheet))
-		self.link_line_edit.textChanged.connect(self.recognize_link)
+		self.link_line_edit.textEdited.connect(self.recognize_link)
 		self.link_line_edit.setToolTip("Enter the meeting link")
 		self.link_label.setAttribute(Qt.WA_TransparentForMouseEvents)
 		self.username_line_edit.textChanged.connect(lambda: self.username_line_edit.setStyleSheet(normal_line_edit_stylesheet))
@@ -139,7 +139,7 @@ class Form(QMainWindow, Ui_Form):
 			self,
 			back_circle_color=QColor(67, 0, 202),
 			front_arc_color=QColor(255, 255, 255))
-		self.link_loading_widget.move(54, 206)
+		self.link_loading_widget.move(12, 193)
 		self.link_loading_widget.setToolTip("Recognizing link...")
 		self.link_loading_widget.hide()
 		self.link_error_widget = LinkErrorWidget(self)
@@ -149,21 +149,21 @@ class Form(QMainWindow, Ui_Form):
 		self.skyroom_logo.setScaledContents(True)
 		self.skyroom_logo.resize(30, 30)
 		self.skyroom_logo.setPixmap(QPixmap(":/resources/resources/skyroom.png"))
-		self.skyroom_logo.move(54, 206)
+		self.skyroom_logo.move(12, 193)
 		self.skyroom_logo.setToolTip("Skyroom")
 		self.skyroom_logo.hide()
 		self.zoom_logo = QLabel("", self)
 		self.zoom_logo.setScaledContents(True)
 		self.zoom_logo.resize(30, 30)
 		self.zoom_logo.setPixmap(QPixmap(":/resources/resources/zoom.png"))
-		self.zoom_logo.move(54, 206)
+		self.zoom_logo.move(12, 193)
 		self.zoom_logo.setToolTip("Zoom")
 		self.zoom_logo.hide()
 		self.adobe_connect_logo = QLabel("", self)
 		self.adobe_connect_logo.setScaledContents(True)
 		self.adobe_connect_logo.resize(30, 30)
 		self.adobe_connect_logo.setPixmap(QPixmap(":/resources/resources/AdobeConnect.png"))
-		self.adobe_connect_logo.move(54, 206)
+		self.adobe_connect_logo.move(12, 193)
 		self.adobe_connect_logo.setToolTip("Adobe Connect")
 		self.adobe_connect_logo.hide()
 		self.show_password_button = ShowPasswordButton(self, bg_color=QColor(0, 0, 0, 0))
@@ -179,7 +179,8 @@ class Form(QMainWindow, Ui_Form):
 		self.window_minimize_button = QWindowMinimizeButton(
 			self,
 			bg_hover_color=QColor(48, 112, 156),
-			bg_press_color=QColor(48, 152, 178))
+			bg_press_color=QColor(48, 152, 178)
+		)
 		self.window_minimize_button.move(self.width() - self.window_close_button.width() - self.window_minimize_button.width(), 0)
 		self.window_minimize_button.setToolTip("Minimize")
 		self.window_minimize_button.clicked.connect(self.showMinimized)
@@ -189,7 +190,8 @@ class Form(QMainWindow, Ui_Form):
 		self.loading_widget = LoadingWidget(
 			self,
 			back_circle_color=QColor(67, 0, 202),
-			front_arc_color=QColor(255, 255, 255))
+			front_arc_color=QColor(255, 255, 255)
+		)
 		self.loading_widget.move(185, 422)
 		self.loading_widget.setToolTip("Loading")
 		self.loading_widget.hide()
@@ -229,18 +231,25 @@ class Form(QMainWindow, Ui_Form):
 		for content in skyroom:
 			if content in self.link_line_edit.text():
 				self.link_loading_widget.hide()
+				self.link_line_edit_anims2.start()
+				self.link_error_widget.hide()
 				self.skyroom_logo.show()
 				return "skyroom"
 		for content in zoom:
 			if content in self.link_line_edit.text():
 				self.link_loading_widget.hide()
+				self.link_line_edit_anims2.start()
+				self.link_error_widget.hide()
 				self.zoom_logo.show()
 				return "zoom"
 		for content in adobe_connect:
 			if content in self.link_line_edit.text():
 				self.link_loading_widget.hide()
+				self.link_line_edit_anims2.start()
+				self.link_error_widget.hide()
 				self.adobe_connect_logo.show()
 				return "adobe connect"
+		self.link_line_edit_anims2.start()
 		self.link_error_widget.hide()
 		self.skyroom_logo.hide()
 		self.zoom_logo.hide()
@@ -267,6 +276,7 @@ class Form(QMainWindow, Ui_Form):
 			return
 		if not self.recognize_link():
 			self.link_loading_widget.hide()
+			self.link_line_edit_anims.start()
 			self.link_error_widget.show()
 			self.link_line_edit.setStyleSheet(unfilled_line_edit_stylesheet)
 			return
@@ -346,13 +356,13 @@ class Form(QMainWindow, Ui_Form):
 
 		self.link_label_anim = QPropertyAnimation(self.link_label, b"pos")
 		self.link_label_anim.setDuration(150)
-		self.link_label_anim.setStartValue(QPoint(62, 165))
-		self.link_label_anim.setEndValue(QPoint(54, 152))
+		self.link_label_anim.setStartValue(QPoint(62, 197))
+		self.link_label_anim.setEndValue(QPoint(54, 185))
 
 		self.link_label_anim_reverse = QPropertyAnimation(self.link_label, b"pos")
 		self.link_label_anim_reverse.setDuration(150)
-		self.link_label_anim_reverse.setStartValue(QPoint(54, 152))
-		self.link_label_anim_reverse.setEndValue(QPoint(62, 165))
+		self.link_label_anim_reverse.setStartValue(QPoint(54, 185))
+		self.link_label_anim_reverse.setEndValue(QPoint(62, 197))
 
 		self.link_label_font_anim = QPropertyAnimation(self.link_label, b"point_size")
 		self.link_label_font_anim.setDuration(150)
@@ -387,6 +397,34 @@ class Form(QMainWindow, Ui_Form):
 		self.link_label_anims2 = QParallelAnimationGroup()
 		self.link_label_anims2.addAnimation(self.link_label_anim_reverse)
 		self.link_label_anims2.addAnimation(self.link_label_font_anim_reverse)
+
+		self.link_line_edit_anim = QPropertyAnimation(self.link_line_edit, b"pos")
+		self.link_line_edit_anim.setDuration(150)
+		# self.link_line_edit_anim.setStartValue(QPoint(50, 182))
+		self.link_line_edit_anim.setEndValue(QPoint(50, 150))
+
+		self.link_line_edit_anim_reverse = QPropertyAnimation(self.link_line_edit, b"pos")
+		self.link_line_edit_anim_reverse.setDuration(150)
+		# self.link_line_edit_anim_reverse.setStartValue(QPoint(50, 50))
+		self.link_line_edit_anim_reverse.setEndValue(QPoint(50, 182))
+
+		self.link_label_anim_2 = QPropertyAnimation(self.link_label, b"pos")
+		self.link_label_anim_2.setDuration(150)
+		# self.link_label_anim_2.setStartValue(QPoint(54, 185))
+		self.link_label_anim_2.setEndValue(QPoint(54, 153))
+
+		self.link_label_anim_2_reverse = QPropertyAnimation(self.link_label, b"pos")
+		self.link_label_anim_2_reverse.setDuration(150)
+		# self.link_label_anim_2_reverse.setStartValue(QPoint(54, 185))
+		self.link_label_anim_2_reverse.setEndValue(QPoint(54, 185))
+
+		self.link_line_edit_anims = QParallelAnimationGroup()
+		self.link_line_edit_anims.addAnimation(self.link_line_edit_anim)
+		self.link_line_edit_anims.addAnimation(self.link_label_anim_2)
+
+		self.link_line_edit_anims2 = QParallelAnimationGroup()
+		self.link_line_edit_anims2.addAnimation(self.link_line_edit_anim_reverse)
+		self.link_line_edit_anims2.addAnimation(self.link_label_anim_2_reverse)
 
 	def mousePressEvent(self, event):
 		self.oldPos = event.globalPos()

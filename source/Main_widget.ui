@@ -274,7 +274,7 @@ QCheckBox::indicator:checked:hover {
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>150</y>
+     <y>182</y>
      <width>300</width>
      <height>50</height>
     </rect>
@@ -313,7 +313,7 @@ QLineEdit:focus {
    <property name="geometry">
     <rect>
      <x>62</x>
-     <y>165</y>
+     <y>197</y>
      <width>26</width>
      <height>20</height>
     </rect>
