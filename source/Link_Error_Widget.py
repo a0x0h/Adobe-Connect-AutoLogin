@@ -1,9 +1,7 @@
-import sys
-
-from PyQt5.QtCore import Qt, pyqtSlot, pyqtProperty, QPropertyAnimation, QParallelAnimationGroup, QEasingCurve
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtCore import Qt, pyqtSlot, pyqtProperty, QPropertyAnimation, QSequentialAnimationGroup, \
+	QParallelAnimationGroup, QEasingCurve
+from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter, QColor, QPen, QBrush, QFont
-from PyQt5.QtTest import QTest
 
 
 class LinkErrorWidget(QWidget):
@@ -19,12 +17,63 @@ class LinkErrorWidget(QWidget):
 		self.width_animation = QPropertyAnimation(self, b"width2")
 		self.width_animation.setDuration(500)
 		self.width_animation.setEasingCurve(QEasingCurve.InOutExpo)
+		self.delay_animation1 = QPropertyAnimation(self, b"height")
+		self.delay_animation2 = QPropertyAnimation(self, b"pos")
 		self.rounded_rect_animation = QPropertyAnimation(self, b"rounded_rect_width")
 		self.rounded_rect_animation.setDuration(500)
 		self.rounded_rect_animation.setEasingCurve(QEasingCurve.InOutExpo)
+		self.width_animations = QSequentialAnimationGroup()
+		self.width_animations.addAnimation(self.delay_animation1)
+		self.width_animations.addAnimation(self.width_animation)
+		self.rounded_rect_animations = QSequentialAnimationGroup()
+		self.rounded_rect_animations.addAnimation(self.delay_animation2)
+		self.rounded_rect_animations.addAnimation(self.rounded_rect_animation)
 		self.hover_animations = QParallelAnimationGroup()
-		self.hover_animations.addAnimation(self.width_animation)
-		self.hover_animations.addAnimation(self.rounded_rect_animation)
+		self.hover_animations.addAnimation(self.width_animations)
+		self.hover_animations.addAnimation(self.rounded_rect_animations)
+		self.left = False
+		self.hover_animations.finished.connect(lambda: self.leaveEvent() if self.left else print())
+
+	def enterEvent(self, event):
+		if self.width() < 300:
+			self.hover_animations.stop()
+			self.delay_animation1.setDuration(0)
+			self.delay_animation2.setDuration(0)
+			self.width_animation.setStartValue(self.width())
+			self.width_animation.setEndValue(300)
+			self.rounded_rect_animation.setStartValue(self._rounded_rect_width)
+			self.rounded_rect_animation.setEndValue(296)
+			self.hover_animations.start()
+
+	def leaveEvent(self, event=None):
+		if self.width() == 300:
+			self.hover_animations.stop()
+			self.delay_animation1.setDuration(1000)
+			self.delay_animation2.setDuration(1000)
+			self.width_animation.setStartValue(self.width())
+			self.width_animation.setEndValue(30)
+			self.rounded_rect_animation.setStartValue(296)
+			self.rounded_rect_animation.setEndValue(26)
+			self.left = False
+			self.hover_animations.start()
+		else:
+			self.left = True
+
+	def paintEvent(self, paint_event):
+		painter = QPainter()
+		painter.begin(self)
+		painter.setRenderHint(QPainter.Antialiasing)
+		painter.setPen(Qt.NoPen)
+		painter.setBrush(Qt.green)
+		painter.setBrush(QBrush(QColor(255, 85, 0), Qt.SolidPattern))
+		painter.drawEllipse(2, 2, 26, 26)
+		painter.drawRoundedRect(2, 2, self._rounded_rect_width, 26, 14, 14)
+		painter.setPen(QPen(QColor(0, 0, 0), 4, Qt.SolidLine))
+		painter.setFont(QFont("Segoe UI", 15))
+		painter.drawText(11, 23, "!")
+		painter.setFont(QFont("Segoe UI", 9))
+		painter.drawText(30, 20, "The link you entered is not supported.")
+		painter.end()
 
 	def get_rounded_rect_width(self):
 		return self._rounded_rect_width
@@ -46,54 +95,3 @@ class LinkErrorWidget(QWidget):
 		self.update()
 
 	width2 = pyqtProperty(int, get_width2, set_width2)
-
-	def enterEvent(self, event):
-		self.hover_animations.stop()
-		self.width_animation.setStartValue(self.width())
-		self.width_animation.setEndValue(300)
-		self.rounded_rect_animation.setStartValue(26)
-		self.rounded_rect_animation.setEndValue(296)
-		self.hover_animations.start()
-
-	def leaveEvent(self, event):
-		QTest.qWait(1000)
-		self.width_animation.setStartValue(self.width())
-		self.width_animation.setEndValue(30)
-		self.rounded_rect_animation.setStartValue(296)
-		self.rounded_rect_animation.setEndValue(26)
-		self.hover_animations.start()
-
-	def paintEvent(self, paint_event):
-		painter = QPainter()
-		painter.begin(self)
-		painter.setRenderHint(QPainter.Antialiasing)
-		painter.setPen(Qt.NoPen)
-		painter.setBrush(Qt.green)
-		# painter.drawRect(0, 0, self.width(), self.height())
-		painter.setBrush(QBrush(QColor(255, 85, 0), Qt.SolidPattern))
-		painter.drawEllipse(2, 2, 26, 26)
-		painter.drawRoundedRect(2, 2, self._rounded_rect_width, 26, 14, 14)
-		painter.setPen(QPen(QColor(0, 0, 0), 4, Qt.SolidLine))
-		painter.setFont(QFont("Segoe UI", 15))
-		painter.drawText(11, 23, "!")
-		painter.setFont(QFont("Segoe UI", 9))
-		painter.drawText(30, 20, "The link you entered is not supported.")
-		painter.end()
-
-
-class Form(QWidget):
-	def __init__(self):
-		super().__init__()
-		self.init_ui()
-
-	def init_ui(self):
-		self.resize(400, 300)
-		self.setWindowTitle("Test")
-		widget = LinkErrorWidget(self)
-		widget.move(20, 20)
-		self.show()
-
-
-# app = QApplication(sys.argv)
-# form = Form()
-# sys.exit(app.exec_())
